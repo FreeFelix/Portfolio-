@@ -7,6 +7,9 @@ The Maze was written in C using the SDL2 library. Development was performed on U
 About SDL2
 Simple DirectMedia Layer (SDL2) is a cross-platform development library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL and Direct3D.
 
+![flowchart](https://github.com/FreeFelix/Portfolio-/assets/96358673/08bcd09c-920b-4460-97ad-318ab39a6e40)
+
+
 Background Context
 The goal of this project is to create a game in 3D using raycasting. The tasks involved in achieving this goal are outlined below. Have fun while working on this project!
 
