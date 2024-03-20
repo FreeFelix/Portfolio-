@@ -30,7 +30,7 @@ Use raycasting to draw walls on the window.
 Allow for changing the camera angle.
 Differentiate wall color from ground/ceiling.
 Orientation
-![Maze flowchart Preview](https://photos.app.goo.gl/RjQieqwzu6XfHy4q6)
+
 
 
 Draw walls facing different directions in distinct colors.
@@ -44,7 +44,7 @@ Ouch!
 
 Handle player collisions with walls.
 Parser
-![Maze diagram](https://photos.app.goo.gl/Yj1mVnQLamTa98MJA)
+
 
 Implement a parser to read the map from a file.
 Draw the map
