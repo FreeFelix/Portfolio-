@@ -1,6 +1,8 @@
 The Maze
 Welcome to The Maze! This is a 3D Maze game that utilizes ray casting to render a 2D map into a 3D navigable world.
 
+![Untitled Diagram drawio](https://github.com/FreeFelix/Portfolio-/assets/96358673/975fc5d8-b46f-4ee3-881a-af00b178c1b3)
+
 About The Maze
 The Maze was written in C using the SDL2 library. Development was performed on Ubuntu 14.04 LTS with gcc (Ubuntu 4.8.4-2ubuntu1~14.04) 4.8.4.
 
