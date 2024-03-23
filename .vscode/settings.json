@@ -1,7 +1,0 @@
-{
-    "C_Cpp.errorSquiggles": "disabled",
-    "files.associations": {
-        "*.embeddedhtml": "html",
-        "inc_ray.h": "c"
-    }
-}
