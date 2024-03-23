@@ -26,57 +26,15 @@ typedef struct {
 
 extern ray_t rays[NUM_RAYS];
 
-/**
- * isRayFacingUp - Check if the ray is facing upward
- * @angle: The angle of the ray
- *
- * Returns:
- *   true if the ray is facing upward, otherwise false
- */
+
 bool isRayFacingUp(float angle);
 
-/**
- * isRayFacingDown - Check if the ray is facing downward
- * @angle: The angle of the ray
- *
- * Returns:
- *   true if the ray is facing downward, otherwise false
- */
+
 bool isRayFacingDown(float angle);
-
-/**
- * isRayFacingLeft - Check if the ray is facing left
- * @angle: The angle of the ray
- *
- * Returns:
- *   true if the ray is facing left, otherwise false
- */
 bool isRayFacingLeft(float angle);
-
-/**
- * isRayFacingRight - Check if the ray is facing right
- * @angle: The angle of the ray
- *
- * Returns:
- *   true if the ray is facing right, otherwise false
- */
 bool isRayFacingRight(float angle);
-
-/**
- * castAllRays - Cast rays to determine the distance to walls and textures
- */
 void castAllRays(void);
-
-/**
- * castRay - Cast a single ray from the player's perspective
- * @rayAngle: The angle of the ray
- * @stripId: The identifier of the ray strip
- */
 void castRay(float rayAngle, int stripId);
-
-/**
- * renderMapRays - Render the rays on the map
- */
 void renderMapRays(void);
 
 #endif

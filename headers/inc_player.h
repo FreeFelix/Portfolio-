@@ -30,16 +30,7 @@ typedef struct {
 } player_t;
 
 extern player_t player;
-
-/**
- * movePlayer - Move the player based on the given delta time
- * @deltaTime: The time elapsed since the last frame
- */
 void movePlayer(float deltaTime);
-
-/**
- * renderMapPlayer - Render the player on the map
- */
 void renderMapPlayer(void);
 
 #endif
