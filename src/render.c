@@ -1,6 +1,6 @@
-#include "headers/ray_struct.h"
-#include "headers/inc_utilise.h"
-#include "headers/inc_ray.h"
+#include "../headers/render.h"
+#include "../headers/utilse.h"
+#include "../headers/raycast.h"
 
 /**
  * sprites_init - Initialize sprites with positions and textures

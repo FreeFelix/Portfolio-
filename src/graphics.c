@@ -1,24 +1,31 @@
-#include "headers/inc_graphics.h"
+#include "../headers/graphics.h"
 
-static SDL_Window *window = NULL;
-static SDL_Renderer *renderer = NULL;
-static uint32_t *colorBuffer = NULL;
-static SDL_Texture *colorBufferTexture;
+static SDL_Window		*window = NULL;
+static SDL_Renderer		*renderer = NULL;
+static uint32_t			*colorBuffer = NULL;
+static SDL_Texture		*colorBufferTexture;
 
 /**
- * initializeWindow - Initialize the game window
+ * initializeWindow - Initializes the SDL window and renderer
  *
- * Return: true if window initialization is successful, otherwise false
+ * Return: true upon successful initialization, false otherwise
  */
-bool initializeWindow(void)
+bool	initializeWindow(void)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
 		fprintf(stderr, "Error initializing SDL.\n");
 		return (false);
 	}
-	window = SDL_CreateWindow(NULL, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-							  WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow
+	(
+		NULL,
+		SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED,
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT,
+		SDL_WINDOW_RESIZABLE
+	);
 	if (!window)
 	{
 		fprintf(stderr, "Error creating SDL window.\n");
@@ -31,16 +38,31 @@ bool initializeWindow(void)
 		return (false);
 	}
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	colorBuffer = (uint32_t *)malloc(sizeof(uint32_t) * (uint32_t)WINDOW_WIDTH *
-									  (uint32_t)WINDOW_HEIGHT);
-	colorBufferTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32,
-										   SDL_TEXTUREACCESS_STREAMING,
-										   WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	/**
+	 * Allocate the total amount of bytes in memory to hold our colorbuffer.
+	 */
+
+	colorBuffer = (uint32_t *)malloc(sizeof(uint32_t) * (uint32_t)WINDOW_WIDTH * (uint32_t)WINDOW_HEIGHT);
+
+	/**
+	 * Create an SDL_texture to display the colorbuffer.
+	 */
+
+	colorBufferTexture = SDL_CreateTexture
+	(
+		renderer,
+		SDL_PIXELFORMAT_RGBA32,
+		SDL_TEXTUREACCESS_STREAMING,
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT
+	);
+
 	return (true);
 }
 
 /**
- * destroyWindow - Destroy the game window and clean up resources
+ * destroyWindow - Destroys the SDL window and associated resources
  */
 void destroyWindow(void)
 {
@@ -52,7 +74,7 @@ void destroyWindow(void)
 }
 
 /**
- * clearColorBuffer - Clear the color buffer with the specified color
+ * clearColorBuffer - Clears the color buffer with the specified color
  * @color: The color to clear the buffer with
  */
 void clearColorBuffer(color_t color)
@@ -62,18 +84,23 @@ void clearColorBuffer(color_t color)
 }
 
 /**
- * renderColorBuffer - Render the color buffer to the screen
+ * renderColorBuffer - Renders the color buffer onto the screen
  */
 void renderColorBuffer(void)
 {
-	SDL_UpdateTexture(colorBufferTexture, NULL, colorBuffer,
-					  (int)((uint32_t)WINDOW_WIDTH * sizeof(color_t)));
+	SDL_UpdateTexture
+	(
+		colorBufferTexture,
+		NULL,
+		colorBuffer,
+		(int)((uint32_t)WINDOW_WIDTH * sizeof(color_t))
+	);
 	SDL_RenderCopy(renderer, colorBufferTexture, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
 
 /**
- * drawPixel - Draw a pixel at the specified coordinates with the specified color
+ * drawPixel - Draws a single pixel at the specified position with the specified color
  * @x: The x-coordinate of the pixel
  * @y: The y-coordinate of the pixel
  * @color: The color of the pixel
@@ -84,7 +111,7 @@ void drawPixel(int x, int y, color_t color)
 }
 
 /**
- * drawRect - Draw a rectangle with the specified dimensions and color
+ * drawRect - Draws a filled rectangle at the specified position with the specified dimensions and color
  * @x: The x-coordinate of the top-left corner of the rectangle
  * @y: The y-coordinate of the top-left corner of the rectangle
  * @width: The width of the rectangle
@@ -103,7 +130,7 @@ void drawRect(int x, int y, int width, int height, color_t color)
 }
 
 /**
- * drawLine - Draw a line between two points with the specified color
+ * drawLine - Draws a line between two points with the specified color
  * @x0: The x-coordinate of the starting point of the line
  * @y0: The y-coordinate of the starting point of the line
  * @x1: The x-coordinate of the ending point of the line
@@ -120,17 +147,28 @@ void drawLine(int x0, int y0, int x1, int y1, color_t color)
 	float currentX;
 	float currentY;
 
+	/*  Differences between start and end of the line */
 	deltaX = (x1 - x0);
 	deltaY = (y1 - y0);
+
+	/* Longest side of the line */
 	longestSideLength = (abs(deltaX) >= abs(deltaY)) ? abs(deltaX) : abs(deltaY);
+
+	/* Calculate the increment in each axis */
 	xIncrement = deltaX / (float)longestSideLength;
 	yIncrement = deltaY / (float)longestSideLength;
+
+	/* Start at the first point */
 	currentX = x0;
 	currentY = y0;
 
+	/* Loop all the longest side until the end */
 	for (int i = 0; i < longestSideLength; i++)
 	{
+		/* Draw pixel, rounding the values to integer to get nearest pixel */
 		drawPixel(round(currentX), round(currentY), color);
+
+		/* Increment the slope to get the next pixel */
 		currentX += xIncrement;
 		currentY += yIncrement;
 	}

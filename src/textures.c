@@ -1,4 +1,4 @@
-#include "headers/inc_textures.h"
+#include "../headers/textures.h"
 #include <stdio.h>
 
 /*  textures - Array of texture pointers */

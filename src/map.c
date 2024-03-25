@@ -1,4 +1,4 @@
-#include "headers/inc_map.h"
+#include "../headers/map.h"
 
 static const int	map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1},
@@ -15,6 +15,7 @@ static const int	map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 5},
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5}
 };
+
 /**
  * mapHasWallAt - Check if there is a wall at the specified coordinates
  * @x: The x-coordinate to check

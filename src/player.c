@@ -1,5 +1,5 @@
-#include "headers/inc_player.h"
-#include "headers/inc_utilise.h"
+#include "../headers/player.h"
+#include "../headers/utilse.h"
 
 player_t	player =
 {
