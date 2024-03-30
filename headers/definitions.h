@@ -25,7 +25,7 @@
 
 #define FPS 30
 #define FRAME_TIME_LENGTH (1000 / FPS)
-
+#define SDL_PIXELFORMAT_RGBA32
 typedef uint32_t color_t;
 
 #endif
