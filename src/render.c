@@ -28,7 +28,8 @@ static sprite_t sprites[NUM_SPRITES] =
  */
 void renderMapSprites(void)
 {
-	for (int i = 0; i < NUM_SPRITES; i++)
+	int i;
+	for (i = 0; i < NUM_SPRITES; i++)
 	{
 		drawRect(
 			sprites[i].x * MINIMAP_SCALE_FACTOR,
@@ -75,9 +76,10 @@ void renderSpriteProjection(void)
 	float perpDistance;
 
 	numVisibleSprites = 0;
+	int i, j, k, m, x, y ;
 
 	/* Find sprites that are visible (inside the FOV) */
-	for (int i = 0; i < NUM_SPRITES; i++)
+	for (i = 0; i < NUM_SPRITES; i++)
 	{
 		/* Angle between player and sprite */
 		angleSpritePlayer = player.rotationAngle - atan2(sprites[i].y - player.y, sprites[i].x - player.x);
@@ -106,23 +108,23 @@ void renderSpriteProjection(void)
 	}
 
 	/* Sort sprites by distance using a naive bubble-sort algorithm */
-	for (int i = 0; i < numVisibleSprites - 1; i++)
+	for (k = 0; k < numVisibleSprites - 1; k++)
 	{
-		for (int j = 0; j < numVisibleSprites; j++)
+		for (j = 0; j < numVisibleSprites; j++)
 		{
-			if (visibleSprites[i].distance < visibleSprites[j].distance)
+			if (visibleSprites[k].distance < visibleSprites[j].distance)
 			{
-				temp = visibleSprites[i];
-				visibleSprites[i] = visibleSprites[j];
+				temp = visibleSprites[k];
+				visibleSprites[k] = visibleSprites[j];
 				visibleSprites[j] = temp;
 			}
 		}
 	}
 
 	/* Rendering all the visible sprites */
-	for (int i = 0; i < numVisibleSprites; i++)
+	for (m = 0; m < numVisibleSprites; m++)
 	{
-		sprite = visibleSprites[i];
+		sprite = visibleSprites[m];
 
 		/* Calculate the projection plane distance */
 		distanceProjPlane = (WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2);
@@ -157,7 +159,7 @@ void renderSpriteProjection(void)
 		textureHeight = upng_get_height(textures[sprite.texture]);
 
 		/* Loop all the x values */
-		for (int x = spriteLeftX; x < spriteRightX; x++)
+		for (x = spriteLeftX; x < spriteRightX; x++)
 		{
 			/* Size of pixel based on sprite width */
 			texelWidth = (textureWidth / spriteWidth);
@@ -165,7 +167,7 @@ void renderSpriteProjection(void)
 			textureOffsetX = (x - spriteLeftX) * texelWidth;
 
 			/* Loop all the y values */
-			for (int y = spriteTopY; y < spriteBottomY; y++)
+			for (y = spriteTopY; y < spriteBottomY; y++)
 			{
 				if (x > 0 && x < WINDOW_WIDTH && y > 0 && y < WINDOW_HEIGHT)
 				{

@@ -79,7 +79,8 @@ void destroyWindow(void)
  */
 void clearColorBuffer(color_t color)
 {
-	for (int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++)
+	int i;
+	for (i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++)
 		colorBuffer[i] = color;
 }
 
@@ -120,9 +121,10 @@ void drawPixel(int x, int y, color_t color)
  */
 void drawRect(int x, int y, int width, int height, color_t color)
 {
-	for (int i = x; i <= (x + width); i++)
+	int i, j;
+	for (i = x; i <= (x + width); i++)
 	{
-		for (int j = y; j < (y + height); j++)
+		for (j = y; j < (y + height); j++)
 		{
 			drawPixel(i, j, color);
 		}
@@ -146,6 +148,7 @@ void drawLine(int x0, int y0, int x1, int y1, color_t color)
 	float yIncrement;
 	float currentX;
 	float currentY;
+	int i;
 
 	/*  Differences between start and end of the line */
 	deltaX = (x1 - x0);
@@ -163,7 +166,7 @@ void drawLine(int x0, int y0, int x1, int y1, color_t color)
 	currentY = y0;
 
 	/* Loop all the longest side until the end */
-	for (int i = 0; i < longestSideLength; i++)
+	for (i = 0; i < longestSideLength; i++)
 	{
 		/* Draw pixel, rounding the values to integer to get nearest pixel */
 		drawPixel(round(currentX), round(currentY), color);

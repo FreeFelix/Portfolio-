@@ -207,11 +207,12 @@ void	castAllRays(void)
 {
 	float	rayAngle;
 	float	distanceProjPlane;
+	int 	col;
 
 	/* calculate the distance of the player to the projection plane */
 	distanceProjPlane = (WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2);
 	/* loop all the pixels columns */
-	for (int col = 0; col < NUM_RAYS; col++)
+	for (col = 0; col < NUM_RAYS; col++)
 	{
 		/* calculate the ray angle */
 		rayAngle = player.rotationAngle + atan((col - NUM_RAYS / 2) / distanceProjPlane);
@@ -224,8 +225,9 @@ void	castAllRays(void)
 
 void	renderMapRays(void)
 {
+	int i;
 	/* increment by 50, to draw only a few rays on the minimap */
-	for (int i = 0; i < NUM_RAYS; i += 50)
+	for (i = 0; i < NUM_RAYS; i += 50)
 	{
 		drawLine(
 			player.x * MINIMAP_SCALE_FACTOR,

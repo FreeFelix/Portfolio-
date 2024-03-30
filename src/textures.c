@@ -26,7 +26,8 @@ static const char*	textureFileNames[NUM_TEXTURES] =
 
 void	loadTextures(void)
 {
-	for (int i = 0; i < NUM_TEXTURES; i++)
+	int i;
+	for (i = 0; i < NUM_TEXTURES; i++)
 	{
 		upng_t*	upng;
 
@@ -57,7 +58,8 @@ void	loadTextures(void)
 
 void	freeTextures(void)
 {
-	for (int i = 0; i < NUM_TEXTURES; i++)
+	int i;
+	for (i = 0; i < NUM_TEXTURES; i++)
 	{
 		upng_free(textures[i]);
 	}

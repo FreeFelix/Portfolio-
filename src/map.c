@@ -76,10 +76,11 @@ void	renderMapGrid(void)
 	int			tileX;
 	int			tileY;
 	uint32_t	tileColor;
+	int i, j;
 
-	for (int i = 0; i < MAP_NUM_ROWS; i++)
+	for (i = 0; i < MAP_NUM_ROWS; i++)
 	{
-		for (int j = 0; j < MAP_NUM_COLS; j++)
+		for (j = 0; j < MAP_NUM_COLS; j++)
 		{
 			tileX = j * TILE_SIZE;
 			tileY = i * TILE_SIZE;

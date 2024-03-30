@@ -45,8 +45,9 @@ void	renderWallProjection(void)
 	int			texNum;
 	int			textureWidth;
 	int			textureHeight;
+	int x, y, i, m;
 
-	for (int x = 0; x < NUM_RAYS; x++)
+	for (x = 0; x < NUM_RAYS; x++)
 	{
 		distanceProjPlane = (WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2);
 		perpDistance = rays[x].distance * cos(rays[x].rayAngle - player.rotationAngle);
@@ -56,7 +57,7 @@ void	renderWallProjection(void)
 		wallBottomY = (WINDOW_HEIGHT / 2) + (wallHeight / 2);
 		wallBottomY = wallBottomY > WINDOW_HEIGHT ? WINDOW_HEIGHT : wallBottomY;
 
-		for (int y = 0; y < wallTopY; y++)
+		for (y = 0; y < wallTopY; y++)
 			drawPixel(x, y, 0xFF444444);
 
 		if (rays[x].wasHitVertical)
@@ -68,9 +69,9 @@ void	renderWallProjection(void)
 		textureWidth = upng_get_width(textures[texNum]);
 		textureHeight = upng_get_height(textures[texNum]);
 
-		for (int y = wallTopY; y < wallBottomY; y++)
+		for (i = wallTopY; i < wallBottomY; i++)
 		{
-			distanceFromTop = y + (wallHeight / 2) - (WINDOW_HEIGHT / 2);
+			distanceFromTop = i + (wallHeight / 2) - (WINDOW_HEIGHT / 2);
 			textureOffsetY = distanceFromTop * ((float)textureHeight / wallHeight);
 			wallTextureBuffer = (color_t *)upng_get_buffer(textures[texNum]);
 			texelColor = wallTextureBuffer[(textureWidth * textureOffsetY) + textureOffsetX];
@@ -78,10 +79,10 @@ void	renderWallProjection(void)
 			if (rays[x].wasHitVertical)
 				changeColorIntensity(&texelColor, 0.7);
 
-			drawPixel(x, y, texelColor);
+			drawPixel(x, i, texelColor);
 		}
 
-		for (int y = wallBottomY; y < WINDOW_HEIGHT; y++)
-			drawPixel(x, y, 0xFF777777);
+		for (m = wallBottomY; m < WINDOW_HEIGHT; m++)
+			drawPixel(x, m, 0xFF777777);
 	}
 }
