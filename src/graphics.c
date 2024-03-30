@@ -52,7 +52,7 @@ bool	initializeWindow(void)
 	colorBufferTexture = SDL_CreateTexture
 	(
 		renderer,
-		SDL_PIXELFORMAT_RGBA8888,
+		SDL_PIXELFORMAT_RGBA32,
 		SDL_TEXTUREACCESS_STREAMING,
 		WINDOW_WIDTH,
 		WINDOW_HEIGHT

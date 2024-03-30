@@ -101,7 +101,7 @@ void update(void)
     /* Store the milliseconds of the current frame to be used in the future */
     ticksLastFrame = SDL_GetTicks();
 
-    movePlayer(deltaTime);
+    movePlayer(&player, deltaTime);
     castAllRays();
 }
 
@@ -122,7 +122,7 @@ void	render(void)
 	renderMapGrid();
 	renderMapRays();
 	renderMapSprites();
-	renderMapPlayer();
+	renderMapPlayer(&player);
 
 	renderColorBuffer();
 }
