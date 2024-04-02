@@ -7,7 +7,7 @@ About The Maze
 The Maze was written in C using the SDL2 library. Development was performed on Ubuntu 14.04 LTS with gcc (Ubuntu 4.8.4-2ubuntu1~14.04) 4.8.4.
 
 About SDL2
-Simple DirectMedia Layer (SDL2) is a cross-platform development library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL and Direct3D.
+Simple DirectMedia Layer (SDL2) is a cross-platform development library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL and Direct3D .
 
 ![flowchart](https://github.com/FreeFelix/Portfolio-/assets/96358673/08bcd09c-920b-4460-97ad-318ab39a6e40)
 
