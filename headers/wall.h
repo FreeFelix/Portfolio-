@@ -1,14 +1,15 @@
-#ifndef WALL_H
-#define WALL_H
+#ifndef WALLS_H
+#define WALLS_H
 
 #include <math.h>
-#include "definitions.h"
+#include "definition.h"
 #include "player.h"
-#include "raycast.h"
-#include "graphics.h"
+#include "ray.h"
+#include "draw.h"
 #include "textures.h"
 
-void	renderWallProjection(void);
-void	changeColorIntensity(color_t *color, float factor);
+/* Functions-variables-structs for walls */
 
-#endif
+void renderWall(void);
+
+#endif /* WALLS_H */

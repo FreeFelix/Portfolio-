@@ -1,191 +1,96 @@
-#include "../headers/render.h"
-#include "../headers/utilse.h"
-#include "../headers/raycast.h"
+#include "../headers/definition.h"
+#include "../headers/input.h"
 
 /**
- * sprites_init - Initialize sprites with positions and textures
+ * SDL_KEYDOWN_FUNC - Process input when a key is down.
+ *
+ * @event: Union that contains structures for the different event types.
  *
  * Description:
- *     Initializes the array of sprites with their positions and textures.
- *     This function sets up the initial state of the sprites.
+ *     This function processes input events when a key is pressed down. It
+ *     updates the game state based on the keys pressed.
+ *
+ * Return:
+ *     No return value.
  */
-static sprite_t sprites[NUM_SPRITES] =
-{
-	{ .x = 640, .y = 630, .texture = 9 },  /* barrel */
-	{ .x = 660, .y = 690, .texture = 9 },  /* barrel */
-	{ .x = 250, .y = 600, .texture = 11 }, /* table */
-	{ .x = 250, .y = 600, .texture = 10},  /* light */
-	{ .x = 300, .y = 400, .texture = 12 }, /* guard */
-	{ .x = 90, .y = 100, .texture = 13 }   /* armor */
-};
 
-/**
- * renderMapSprites - Render map sprites on the minimap
- *
- * Description:
- *     Renders the map sprites on the minimap by drawing rectangles
- *     representing the sprites' positions with colors based on visibility.
- */
-void renderMapSprites(void)
+void SDL_KEYDOWN_FUNC(SDL_Event event)
 {
-	int i;
-	for (i = 0; i < NUM_SPRITES; i++)
-	{
-		drawRect(
-			sprites[i].x * MINIMAP_SCALE_FACTOR,
-			sprites[i].y * MINIMAP_SCALE_FACTOR,
-			2,
-			2,
-			(sprites[i].visible) ? 0xFF00FFFF : 0xFF444444 /* Visible sprite color */
-		);
-	}
+	if (event.key.keysym.sym == SDLK_ESCAPE)
+		GameRunning = false;
+	if (event.key.keysym.sym == SDLK_UP)
+		player.walkDirection = +1;
+	if (event.key.keysym.sym == SDLK_DOWN)
+		player.walkDirection = -1;
+	if (event.key.keysym.sym == SDLK_RIGHT)
+		player.turnDirection = +1;
+	if (event.key.keysym.sym == SDLK_LEFT)
+		player.turnDirection = -1;
+	if (event.key.keysym.sym == SDLK_w)
+		player.walkDirection = +1;
+	if (event.key.keysym.sym == SDLK_s)
+		player.walkDirection = -1;
+	if (event.key.keysym.sym == SDLK_a)
+		player.turnDirection = -1;
+	if (event.key.keysym.sym == SDLK_d)
+		player.turnDirection = +1;
 }
 
 /**
- * renderSpriteProjection - Render projected sprites on the screen
+ * SDL_KEYUP_FUNC - Process input when a key is up.
+ *
+ * @event: Union that contains structures for the different event types.
  *
  * Description:
- *     Renders projected sprites on the screen using raycasting techniques.
- *     This function calculates the positions and sizes of sprites and draws them
- *     onto the screen with textures.
+ *     This function processes input events when a key is released. It updates
+ *     the game state based on the keys released.
+ *
+ * Return:
+ *     No return value.
  */
-void renderSpriteProjection(void)
+
+void SDL_KEYUP_FUNC(SDL_Event event)
 {
-	float distanceProjPlane;
-	sprite_t visibleSprites[NUM_SPRITES];
-	int numVisibleSprites;
-	float angleSpritePlayer;
-	sprite_t sprite;
-	float spriteHeight;
-	float spriteWidth;
-	float spriteTopY;
-	float spriteBottomY;
-	float spriteAngle;
-	float spriteScreenPoX;
-	float spriteLeftX;
-	float spriteRightX;
-	int textureWidth;
-	int textureHeight;
-	color_t *spriteTextureBuffer;
-	color_t texelColor;
-	int textureOffsetY;
-	int textureOffsetX;
-	float texelWidth;
-	int distanceFromTop;
-	sprite_t temp;
-	float perpDistance;
+	if (event.key.keysym.sym == SDLK_UP)
+		player.walkDirection = 0;
+	if (event.key.keysym.sym == SDLK_DOWN)
+		player.walkDirection = 0;
+	if (event.key.keysym.sym == SDLK_RIGHT)
+		player.turnDirection = 0;
+	if (event.key.keysym.sym == SDLK_LEFT)
+		player.turnDirection = 0;
+	if (event.key.keysym.sym == SDLK_w)
+		player.walkDirection = 0;
+	if (event.key.keysym.sym == SDLK_s)
+		player.walkDirection = 0;
+	if (event.key.keysym.sym == SDLK_a)
+		player.turnDirection = 0;
+	if (event.key.keysym.sym == SDLK_d)
+		player.turnDirection = 0;
+}
 
-	numVisibleSprites = 0;
-	int i, j, k, m, x, y ;
+/**
+ * handleInput - Process input from the keyboard.
+ *
+ * Description:
+ *     This function polls events from the keyboard and handles them
+ *     accordingly by calling SDL_KEYDOWN_FUNC or SDL_KEYUP_FUNC based on the
+ *     event type.
+ *
+ * Return:
+ *     No return value.
+ */
+ 
+void handleInput(void)
+{
+	SDL_Event event;
 
-	/* Find sprites that are visible (inside the FOV) */
-	for (i = 0; i < NUM_SPRITES; i++)
-	{
-		/* Angle between player and sprite */
-		angleSpritePlayer = player.rotationAngle - atan2(sprites[i].y - player.y, sprites[i].x - player.x);
+	SDL_PollEvent(&event);
 
-		/* Make sure the angle is always between 0 and 180 degrees */
-		if (angleSpritePlayer > PI)
-			angleSpritePlayer -= TWO_PI;
-		if (angleSpritePlayer < -PI)
-			angleSpritePlayer += TWO_PI;
-		angleSpritePlayer = fabs(angleSpritePlayer);
-
-		/* If sprite angle is less than half the FOV plus a small error margin */
-		const float EPSILON = 0.2;
-		if (angleSpritePlayer < (FOV_ANGLE / 2) + EPSILON)
-		{
-			sprites[i].visible = true;
-			sprites[i].angle = angleSpritePlayer;
-			sprites[i].distance = distanceBetweenPoints(sprites[i].x, sprites[i].y, player.x, player.y);
-			visibleSprites[numVisibleSprites] = sprites[i];
-			numVisibleSprites++;
-		}
-		else
-		{
-			sprites[i].visible = false;
-		}
-	}
-
-	/* Sort sprites by distance using a naive bubble-sort algorithm */
-	for (k = 0; k < numVisibleSprites - 1; k++)
-	{
-		for (j = 0; j < numVisibleSprites; j++)
-		{
-			if (visibleSprites[k].distance < visibleSprites[j].distance)
-			{
-				temp = visibleSprites[k];
-				visibleSprites[k] = visibleSprites[j];
-				visibleSprites[j] = temp;
-			}
-		}
-	}
-
-	/* Rendering all the visible sprites */
-	for (m = 0; m < numVisibleSprites; m++)
-	{
-		sprite = visibleSprites[m];
-
-		/* Calculate the projection plane distance */
-		distanceProjPlane = (WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2);
-
-		/* Calculate the perpendicular distance of the sprite to prevent fish-eye effect */
-		perpDistance = sprite.distance * cos(sprite.angle);
-
-		/* Calculate the sprite projected height and width (the same, as sprites are squared) */
-		spriteHeight = (TILE_SIZE / perpDistance) * distanceProjPlane;
-		spriteWidth = spriteHeight;
-
-		/* Sprite top Y */
-		spriteTopY = (WINDOW_HEIGHT / 2) - (spriteHeight / 2);
-		spriteTopY = (spriteTopY < 0) ? 0 : spriteTopY;
-
-		/* Sprite bottom Y */
-		spriteBottomY = (WINDOW_HEIGHT / 2) + (spriteHeight / 2);
-		spriteBottomY = (spriteBottomY > WINDOW_HEIGHT) ? WINDOW_HEIGHT : spriteBottomY;
-
-		/* Calculate the sprite X position in the projection plane */
-		spriteAngle = atan2(sprite.y - player.y, sprite.x - player.x) - player.rotationAngle;
-		spriteScreenPoX = tan(spriteAngle) * distanceProjPlane;
-
-		/* SpriteLeftX */
-		spriteLeftX = (WINDOW_WIDTH / 2) + spriteScreenPoX - (spriteWidth / 2);
-
-		/* SpriteRightX */
-		spriteRightX = spriteLeftX + spriteWidth;
-
-		/* Query the width and height of the texture */
-		textureWidth = upng_get_width(textures[sprite.texture]);
-		textureHeight = upng_get_height(textures[sprite.texture]);
-
-		/* Loop all the x values */
-		for (x = spriteLeftX; x < spriteRightX; x++)
-		{
-			/* Size of pixel based on sprite width */
-			texelWidth = (textureWidth / spriteWidth);
-			/* Get the x position inside the texture */
-			textureOffsetX = (x - spriteLeftX) * texelWidth;
-
-			/* Loop all the y values */
-			for (y = spriteTopY; y < spriteBottomY; y++)
-			{
-				if (x > 0 && x < WINDOW_WIDTH && y > 0 && y < WINDOW_HEIGHT)
-				{
-					/* Amount of pixels based on sprite height */
-					distanceFromTop = y + (spriteHeight / 2) - (WINDOW_HEIGHT / 2);
-					/* Get the y position inside the texture */
-					textureOffsetY = distanceFromTop * (textureHeight / spriteHeight);
-
-					spriteTextureBuffer = (color_t *)upng_get_buffer(textures[sprite.texture]);
-					texelColor = spriteTextureBuffer[(textureWidth * textureOffsetY) + textureOffsetX];
-
-					/*  Only draws the sprite pixel if it is closer than the wall */
-					if (sprite.distance < rays[x].distance && texelColor != 0xFFFF00FF)
-						drawPixel(x, y, texelColor);
-				}
-			}
-
-		}
-
-	}
+	if (event.type == SDL_QUIT)
+		GameRunning = false;
+	else if (event.type == SDL_KEYDOWN)
+		SDL_KEYDOWN_FUNC(event);
+	else if (event.type == SDL_KEYUP)
+		SDL_KEYUP_FUNC(event);
 }

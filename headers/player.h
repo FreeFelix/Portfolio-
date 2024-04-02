@@ -1,22 +1,25 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "definitions.h"
-#include "graphics.h"
+#include "definition.h"
+#include "draw.h"
 #include "map.h"
 
+/* Functions-variables-structs for player */
+
 /**
- * struct player_s - Structure to represent the player
- * @x: The x-coordinate of the player
- * @y: The y-coordinate of the player
- * @width: The width of the player
- * @height: The height of the player
- * @turnDirection: The direction in which the player is turning (-1 for left, +1 for right)
- * @walkDirection: The direction in which the player is walking (0 for no movement, +1 for forward, -1 for backward)
- * @rotationAngle: The angle at which the player is rotated
- * @walkSpeed: The speed at which the player can walk
- * @turnSpeed: The speed at which the player can turn
+ * struct player_s - struct for the textures
+ * @x: x coordinate
+ * @y: y coordinate
+ * @width: player width
+ * @height: player height
+ * @turnDirection: Turn Direction
+ * @walkDirection: Walk Direction
+ * @rotationAngle: player rotation angle
+ * @walkSpeed: walk speed
+ * @turnSpeed: turn speed
  */
+
 typedef struct player_s
 {
     float x;
@@ -30,8 +33,9 @@ typedef struct player_s
     float turnSpeed;
 } player_t;
 
-extern player_t player; /* External declaration of the player variable */
+extern player_t player;
 
-void movePlayer(player_t *player, float deltaTime);
-void renderMapPlayer(const player_t *player);
+void movePlayer(float DeltaTime);
+void renderPlayer(void);
+
 #endif /* PLAYER_H */

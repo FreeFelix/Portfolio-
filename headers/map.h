@@ -2,15 +2,16 @@
 #define MAP_H
 
 #include <stdbool.h>
-#include "definitions.h"
-#include "graphics.h"
+#include "definition.h"
+#include "draw.h"
 
 #define MAP_NUM_ROWS 13
 #define MAP_NUM_COLS 20
 
-bool	mapHasWallAt(float x, float y);
-bool	isInsideMap(float x, float y);
-void	renderMapGrid(void);
-int		getMapAt(int i, int j);
+/* Functions-variables-structs for map */
+bool DetectCollision(float x, float y);
+bool isInsideMap(float x, float y);
+void renderMap(void);
+int getMapValue(int row, int col);
 
-#endif
+#endif /* MAP_H */

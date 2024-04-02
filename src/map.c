@@ -1,6 +1,7 @@
+#include "../headers/definition.h"
 #include "../headers/map.h"
 
-static const int	map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
+static const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 1},
@@ -17,66 +18,76 @@ static const int	map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
 };
 
 /**
- * mapHasWallAt - Check if there is a wall at the specified coordinates
- * @x: The x-coordinate to check
- * @y: The y-coordinate to check
- *
- * Returns:
- *   true if there is a wall at the specified coordinates, otherwise false
+ * DetectCollision - Checks if there could be a collision with the wall
+ * @x: Next x coordinate
+ * @y: Next y coordinate
+ * 
+ * Description: This function checks if there could be a collision with the
+ * wall in the next player advance, based on the given next coordinates.
+ * 
+ * Return: true if collision is detected, false otherwise.
  */
 
-bool	mapHasWallAt(float x, float y)
+bool DetectCollision(float x, float y)
 {
-	int	mapGridIndexX;
-	int	mapGridIndexY;
+	int mapGridX, mapGridY;
 
-	if (x < 0 || x >= MAP_NUM_COLS * TILE_SIZE || y < 0 || y >= MAP_NUM_ROWS * TILE_SIZE)
+	if (x < 0 || x >= MAP_NUM_COLS * TILE_SIZE ||
+			y < 0 || y >= MAP_NUM_ROWS * TILE_SIZE)
 		return (true);
 
-	mapGridIndexX = (floor)(x / TILE_SIZE);
-	mapGridIndexY = (floor)(y / TILE_SIZE);
-	return (map[mapGridIndexY][mapGridIndexX] != 0);
+	mapGridX = floor(x / TILE_SIZE);
+	mapGridY = floor(y / TILE_SIZE);
+	return (map[mapGridY][mapGridX] != 0);
 }
 
 /**
- * isInsideMap - Check if the specified coordinates are inside the map boundaries
- * @x: The x-coordinate to check
- * @y: The y-coordinate to check
- *
- * Returns:
- *   true if the coordinates are inside the map boundaries, otherwise false
+ * isInsideMap - Check if the coordinates are inside the map boundaries
+ * @x: X coordinate
+ * @y: Y coordinate
+ * 
+ * Description: This function checks if the given coordinates are inside
+ * the boundaries of the map.
+ * 
+ * Return: true if coordinates are inside the map, false otherwise.
  */
 
-bool	isInsideMap(float x, float y)
+bool isInsideMap(float x, float y)
 {
-	return (x >= 0 && x <= MAP_NUM_COLS * TILE_SIZE
-		&& y >= 0 && y <= MAP_NUM_ROWS * TILE_SIZE);
+	return (x >= 0 && x <= MAP_NUM_COLS * TILE_SIZE &&
+				y >= 0 && y <= MAP_NUM_ROWS * TILE_SIZE);
 }
 
 /**
- * getMapAt - Get the value at the specified position in the map grid
- * @i: The row index
- * @j: The column index
- *
- * Returns:
- *   The value at the specified position in the map grid
+ * getMapValue - Get the value at a specific position in the map
+ * @row: Row index in the map
+ * @col: Column index in the map
+ * 
+ * Description: This function retrieves the value at the specified position
+ * in the map.
+ * 
+ * Return: The value at the specified position in the map.
  */
 
-int		getMapAt(int i, int j)
+int getMapValue(int row, int col)
 {
-	return (map[i][j]);
+
+	return (map[row][col]);
+
 }
 
 /**
- * renderMapGrid - Render the map grid to the screen
+ * renderMap - Render the map
+ * 
+ * Description: This function renders the map on the screen.
+ * 
+ * Return: No return value.
  */
 
-void	renderMapGrid(void)
+void renderMap(void)
 {
-	int			tileX;
-	int			tileY;
-	uint32_t	tileColor;
-	int i, j;
+	int i, j, tileX, tileY;
+	color_t tileColor;
 
 	for (i = 0; i < MAP_NUM_ROWS; i++)
 	{
