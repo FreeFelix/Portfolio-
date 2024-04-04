@@ -8,8 +8,9 @@
  * @width: Width of the rectangle.
  * @height: Height of the rectangle.
  *
- * Description: This function draws a rectangle on the screen with the specified
- * top-left corner coordinates, width, and height, filled with the given color.
+ * Description: This function draws a rectangle on the screen
+ * with the specified top-left corner coordinates, width, and
+ * height, filled with the given color.
  *
  * Return: No return value.
  */
