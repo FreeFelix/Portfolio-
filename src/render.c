@@ -3,15 +3,11 @@
 
 /**
  * SDL_KEYDOWN_FUNC - Process input when a key is down.
- *
  * @event: Union that contains structures for the different event types.
- *
  * Description:
- *     This function processes input events when a key is pressed down. It
- *     updates the game state based on the keys pressed.
- *
- * Return:
- *     No return value.
+ * This function processes input events when a key is pressed down. It
+ * updates the game state based on the keys pressed.
+ * Return: No return value.
  */
 
 void SDL_KEYDOWN_FUNC(SDL_Event event)
@@ -38,15 +34,11 @@ void SDL_KEYDOWN_FUNC(SDL_Event event)
 
 /**
  * SDL_KEYUP_FUNC - Process input when a key is up.
- *
  * @event: Union that contains structures for the different event types.
- *
  * Description:
- *     This function processes input events when a key is released. It updates
- *     the game state based on the keys released.
- *
- * Return:
- *     No return value.
+ * This function processes input events when a key is released. It updates
+ * the game state based on the keys released.
+ * Return: No return value.
  */
 
 void SDL_KEYUP_FUNC(SDL_Event event)
@@ -71,16 +63,12 @@ void SDL_KEYUP_FUNC(SDL_Event event)
 
 /**
  * handleInput - Process input from the keyboard.
- *
  * Description:
- *     This function polls events from the keyboard and handles them
- *     accordingly by calling SDL_KEYDOWN_FUNC or SDL_KEYUP_FUNC based on the
- *     event type.
- *
- * Return:
- *     No return value.
+ * This function polls events from the keyboard and handles them
+ * accordingly by calling SDL_KEYDOWN_FUNC or SDL_KEYUP_FUNC based on the
+ * event type.
+ * Return:No return value.
  */
- 
 void handleInput(void)
 {
 	SDL_Event event;

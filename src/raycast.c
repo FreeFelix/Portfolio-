@@ -12,9 +12,8 @@ static int horzWallContent, vertWallContent;
 /**
  * horzIntersection - Finds horizontal intersection with the wall.
  * @rayAngle: Current ray angle.
- * 
- * Description: This function calculates the intersection of the ray with the horizontal walls.
- * 
+ * Description: This function calculates the intersection
+ * of the ray with the horizontal walls.
  * Return: No return value.
  */
 
@@ -60,9 +59,8 @@ void horzIntersection(float rayAngle)
 /**
  * vertIntersection - Finds vertical intersection with the wall.
  * @rayAngle: Current ray angle.
- * 
- * Description: This function calculates the intersection of the ray with the vertical walls.
- * 
+ * Description: This function calculates the intersection of
+ * the ray with the vertical walls.
  * Return: No return value.
  */
 
@@ -111,9 +109,8 @@ void vertIntersection(float rayAngle)
  * castRay - Casting of each ray.
  * @rayAngle: Current ray angle.
  * @stripId: Ray strip identifier.
- * 
- * Description: This function casts a ray and calculates its intersection with the walls.
- * 
+ * Description: This function casts a ray and calculates it
+ * intersection with the walls.
  * Return: No return value.
  */
 
@@ -159,9 +156,7 @@ void castRay(float rayAngle, int stripId)
 
 /**
  * castAllRays - Cast of all rays.
- * 
  * Description: This function casts all the rays from the player's perspective.
- * 
  * Return: No return value.
  */
 
@@ -179,9 +174,7 @@ void castAllRays(void)
 
 /**
  * renderRays - Draw all the rays.
- * 
  * Description: This function draws all the rays on the screen.
- * 
  * Return: No return value.
  */
 

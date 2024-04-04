@@ -10,20 +10,16 @@
 #include "../headers/textures.h"
 #include "../headers/wall.h"
 
-
-bool GameRunning = false;
-int TicksLastFrame;
-player_t player;
-
 /**
  * setup_game - Initializes player variables and loads wall textures.
- * 
  * Return: No return value.
  */
+player_t player;
+int TicksLastFrame = 0;
+bool GameRunning = false;
 
 void setup_game(void)
 {
-
 	player.x = SCREEN_WIDTH / 2;
 	player.y = SCREEN_HEIGHT / 2;
 	player.width = 1;
@@ -39,8 +35,7 @@ void setup_game(void)
 
 /**
  * update_game - Updates the game with delta time, ticks last frame,
- *               player movement, and ray casting.
- * 
+ * player movement, and ray casting.
  * Return: No return value.
  */
 void update_game(void)
@@ -62,8 +57,7 @@ void update_game(void)
 
 /**
  * render_game - Calls all functions needed for on-screen rendering.
- * 
- * Return: No return value.
+ *  Return: No return value.
  */
 
 void render_game(void)
@@ -80,7 +74,6 @@ void render_game(void)
 }
 /**
  * destroy_game - Frees wall textures and destroys window.
- * 
  * Return: No return value.
  */
 void destroy_game(void)
@@ -91,12 +84,12 @@ void destroy_game(void)
 
 /**
  * main - Main function.
- * 
  * Return: 0.
  */
 
 int main(void)
 {
+
 	GameRunning = initializeWindow();
 
 	setup_game();

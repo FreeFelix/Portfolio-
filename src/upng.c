@@ -54,7 +54,7 @@
 #define DEFLATE_CODE_BITLEN 15
 #define DISTANCE_BITLEN 15
 #define CODE_LENGTH_BITLEN 7
- /* largest bitlen used by any tree type */
+/* largest bitlen used by any tree type */
 #define MAX_BIT_LENGTH 15
 
 #define DEFLATE_CODE_BUFFER_SIZE (NUM_DEFLATE_CODE_SYMBOLS * 2)
@@ -107,40 +107,40 @@ struct upng_t {
 
 typedef struct huffman_tree {
 	unsigned* tree2d;
-    	/*maximum number of bits a single code can get */
+	/*maximum number of bits a single code can get */
 	unsigned maxbitlen;
-    	/*number of symbols in the alphabet = number of codes */
+	/*number of symbols in the alphabet = number of codes */
 	unsigned numcodes;
 } huffman_tree;
-	/*the base lengths represented by codes 257-285 */
+/*the base lengths represented by codes 257-285 */
 static const unsigned LENGTH_BASE[29] = {
 	3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59,
 	67, 83, 99, 115, 131, 163, 195, 227, 258
 };
-	/*the extra bits used by codes 257-285 (added to base length) */
+/*the extra bits used by codes 257-285 (added to base length) */
 static const unsigned LENGTH_EXTRA[29] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5,
 	5, 5, 5, 0
 };
-	/* 
-     * the base backwards distances (the bits of distance codes
-     * appear after length codes and use their own huffman tree) 
-     * 
-     */
+/* 
+ * the base backwards distances (the bits of distance codes
+ * appear after length codes and use their own huffman tree) 
+ * 
+ */
 static const unsigned DISTANCE_BASE[30] = {
 	1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513,
 	769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577
 };
-	/*the extra bits of backwards distances (added to base) */
+/*the extra bits of backwards distances (added to base) */
 static const unsigned DISTANCE_EXTRA[30] = {
 	0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10,
 	11, 11, 12, 12, 13, 13
 };
-	/* 
-     * the order in which "code length alphabet code lengths" are stored, 
-     * out of this the huffman tree of the dynamic huffman 
-     * tree lengths is generated
-     */
+/* 
+ * the order in which "code length alphabet code lengths" are stored, 
+ * out of this the huffman tree of the dynamic huffman 
+ * tree lengths is generated
+ */
 static const unsigned CLCL[NUM_CODE_LENGTH_CODES]
 = { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
 
@@ -225,9 +225,9 @@ static void huffman_tree_create_lengths(upng_t* upng, huffman_tree* tree, const 
 	unsigned blcount[MAX_BIT_LENGTH];
 	unsigned nextcode[MAX_BIT_LENGTH+1];
 	unsigned bits, n, i;
-    /*up to which node it is filled */
+	/*up to which node it is filled */
 	unsigned nodefilled = 0;
-    /*position in the tree (1 of the numcodes columns) */
+	/*position in the tree (1 of the numcodes columns) */
 	unsigned treepos = 0;
 
 	/* initialize local vectors */
@@ -252,16 +252,16 @@ static void huffman_tree_create_lengths(upng_t* upng, huffman_tree* tree, const 
 	}
 
 	/*
-     * convert tree1d[] to tree2d[][]. In the 2D array, a value of 32767 means uninited,
-     * a value >= numcodes is an address to another bit, a value < numcodes is a code.
-     * The 2 rows are the 2 possible bit values (0 or 1), there are as many columns as codes - 1
+	 * convert tree1d[] to tree2d[][]. In the 2D array, a value of 32767 means uninited,
+	 * a value >= numcodes is an address to another bit, a value < numcodes is a code.
+	 * The 2 rows are the 2 possible bit values (0 or 1), there are as many columns as codes - 1
 	 *  a good huffmann tree has N * 2 - 1 nodes, of which N - 1 are internal nodes. Here,
-     *  the internal nodes are stored (what their 0 and 1 option point to).
-     * There is only memory for such good tree currently, if there are more nodes
-     * (due to too long length codes), error 55 will happen
-     */
+	 *  the internal nodes are stored (what their 0 and 1 option point to).
+	 * There is only memory for such good tree currently, if there are more nodes
+	 * (due to too long length codes), error 55 will happen
+	 */
 	for (n = 0; n < tree->numcodes * 2; n++) {
-        /*32767 here means the tree2d isn't filled there yet */
+		/*32767 here means the tree2d isn't filled there yet */
 		tree->tree2d[n] = 32767;
 	}
 
@@ -278,14 +278,14 @@ static void huffman_tree_create_lengths(upng_t* upng, huffman_tree* tree, const 
 				if (i + 1 == bitlen[n]) {	/*last bit */
 					tree->tree2d[2 * treepos + bit] = n;	/*put the current code in it */
 					treepos = 0;
-                 /*
-                  * go to the root, this was the last bit of the code, no need to go further
-                  *  (to any children of the current code)
-                  */
+					/*
+					 * go to the root, this was the last bit of the code, no need to go further
+					 *  (to any children of the current code)
+					 */
 				} else {	
 					nodefilled++;
 					tree->tree2d[2 * treepos + bit] = nodefilled + tree->numcodes;
-                    /*addresses encoded with numcodes added to it */
+					/*addresses encoded with numcodes added to it */
 					treepos = nodefilled;
 				}
 			} else {
@@ -297,7 +297,7 @@ static void huffman_tree_create_lengths(upng_t* upng, huffman_tree* tree, const 
 	for (n = 0; n < tree->numcodes * 2; n++) {
 		if (tree->tree2d[n] == 32767) {
 			tree->tree2d[n] = 0;	
-            /*remove possible remaining 32767's */
+			/*remove possible remaining 32767's */
 		}
 	}
 }
@@ -339,9 +339,9 @@ static void get_tree_inflate_dynamic(upng_t* upng, huffman_tree* codetree, huffm
 	unsigned n, hlit, hdist, hclen, i;
 
 	/* make sure that length values that aren't filled in will be 0, or
-     * a wrong tree will be generated 
+	 * a wrong tree will be generated 
 	 * C-code note: use no "return" between ctor and dtor of an uivector!
-     */
+	 */
 	if ((*bp) >> 3 >= inlength - 2) {
 		SET_ERROR(upng, UPNG_EMALFORMED);
 		return;
@@ -353,11 +353,11 @@ static void get_tree_inflate_dynamic(upng_t* upng, huffman_tree* codetree, huffm
 
 	/*the bit pointer is or will go past the memory */
 	hlit = read_bits(bp, in, 5) + 257;	
-    /*number of literal/length codes + 257. Unlike the spec, the value 257 is added to it here already */
+	/*number of literal/length codes + 257. Unlike the spec, the value 257 is added to it here already */
 	hdist = read_bits(bp, in, 5) + 1;	
-    /*number of distance codes. Unlike the spec, the value 1 is added to it here already */
+	/*number of distance codes. Unlike the spec, the value 1 is added to it here already */
 	hclen = read_bits(bp, in, 4) + 4;
-    /*number of code length codes. Unlike the spec, the value 4 is added to it here already */
+	/*number of code length codes. Unlike the spec, the value 4 is added to it here already */
 
 	for (i = 0; i < NUM_CODE_LENGTH_CODES; i++) {
 		if (i < hclen) {
@@ -645,9 +645,9 @@ static void inflate_uncompressed(upng_t* upng, unsigned char* out, unsigned long
 static upng_error uz_inflate_data(upng_t* upng, unsigned char* out, unsigned long outsize, const unsigned char *in, unsigned long insize, unsigned long inpos)
 {
 	unsigned long bp = 0;
-    /*bit pointer in the "in" data, current byte is bp >> 3, current bit is bp & 0x7 (from lsb to msb of the byte) */
+	/*bit pointer in the "in" data, current byte is bp >> 3, current bit is bp & 0x7 (from lsb to msb of the byte) */
 	unsigned long pos = 0;
-    /*byte position in the out buffer */
+	/*byte position in the out buffer */
 
 	unsigned done = 0;
 
@@ -670,10 +670,10 @@ static upng_error uz_inflate_data(upng_t* upng, unsigned char* out, unsigned lon
 			return upng->error;
 		} else if (btype == 0) {
 			inflate_uncompressed(upng, out, outsize, &in[inpos], &bp, &pos, insize);
-            /*no compression */
+			/*no compression */
 		} else {
 			inflate_huffman(upng, out, outsize, &in[inpos], &bp, &pos, insize, btype);
-            /*compression, btype 01 or 10 */
+			/*compression, btype 01 or 10 */
 		}
 
 		/* stop if an error has occured */
@@ -736,84 +736,84 @@ static int paeth_predictor(int a, int b, int c)
 static void unfilter_scanline(upng_t* upng, unsigned char *recon, const unsigned char *scanline, const unsigned char *precon, unsigned long bytewidth, unsigned char filterType, unsigned long length)
 {
 	/*
-     * For PNG filter method 0
-     * this function unfilters a single image scanline.
-     * By knowing the previous scanline, the function can 'unfilter' the scanline.
-     * The incoming scanlines are run-length encoded.
-     * The type of filtering is determined by the first byte of the scanline.
-     * recon is the result.
-     * recon and scanline MAY be the same memory address! precon MAY be NULL.
-     * recon must have enough bytes allocated already, a scanline is bytewidth * length bytes long.
-     * recon and scanline are allowed to be the same memory address.
-     * precon must be the previous (unfiltered) scanline, with a length of bytewidth * length bytes.
-     * recon and precon are allowed to be the same memory address.
-     * The incoming scanlines are allowed to be bit-aligned, which means they may have padding bits in the beginning.
-     * recon and precon are assumed to be byte-aligned.
-     * recon and scanline are assumed to be byte-aligned.
-     * The outcoming scanline will be byte-aligned.
-     * length is the amount of bytes to filter.
-     * bytewidth is the amount of bytes per pixel, is 1 when bitdepth < 8, and is 3 when bitdepth is 8 or more.
-     * filterType is the PNG filter type, and is not used by this function, but is used by upng.c.
-     * For filterType 0, recon[i] = scanline[i] + recon[i - bytewidth].
-     * For the first bytewidth bytes, recon[i] = scanline[i].
-     * recon is allowed to be NULL, precon is then not accessed of course.
-     * precon is allowed to be NULL, recon will then be filled with only the scanline data.
-     * recon, scanline and precon must have a size of at least length bytes.
-     * recon, scanline and precon are allowed to be NULL; no filtering is then done,
-     * but recon is then not accessed of course.
-     * The incoming scanlines must be a multiple of bytewidth long.
-     * The incoming scanlines must have a length of at least bytewidth * length bytes.
-     */
+	 * For PNG filter method 0
+	 * this function unfilters a single image scanline.
+	 * By knowing the previous scanline, the function can 'unfilter' the scanline.
+	 * The incoming scanlines are run-length encoded.
+	 * The type of filtering is determined by the first byte of the scanline.
+	 * recon is the result.
+	 * recon and scanline MAY be the same memory address! precon MAY be NULL.
+	 * recon must have enough bytes allocated already, a scanline is bytewidth * length bytes long.
+	 * recon and scanline are allowed to be the same memory address.
+	 * precon must be the previous (unfiltered) scanline, with a length of bytewidth * length bytes.
+	 * recon and precon are allowed to be the same memory address.
+	 * The incoming scanlines are allowed to be bit-aligned, which means they may have padding bits in the beginning.
+	 * recon and precon are assumed to be byte-aligned.
+	 * recon and scanline are assumed to be byte-aligned.
+	 * The outcoming scanline will be byte-aligned.
+	 * length is the amount of bytes to filter.
+	 * bytewidth is the amount of bytes per pixel, is 1 when bitdepth < 8, and is 3 when bitdepth is 8 or more.
+	 * filterType is the PNG filter type, and is not used by this function, but is used by upng.c.
+	 * For filterType 0, recon[i] = scanline[i] + recon[i - bytewidth].
+	 * For the first bytewidth bytes, recon[i] = scanline[i].
+	 * recon is allowed to be NULL, precon is then not accessed of course.
+	 * precon is allowed to be NULL, recon will then be filled with only the scanline data.
+	 * recon, scanline and precon must have a size of at least length bytes.
+	 * recon, scanline and precon are allowed to be NULL; no filtering is then done,
+	 * but recon is then not accessed of course.
+	 * The incoming scanlines must be a multiple of bytewidth long.
+	 * The incoming scanlines must have a length of at least bytewidth * length bytes.
+	 */
 
 	unsigned long i;
 	switch (filterType) {
-	case 0:
-		for (i = 0; i < length; i++)
-			recon[i] = scanline[i];
-		break;
-	case 1:
-		for (i = 0; i < bytewidth; i++)
-			recon[i] = scanline[i];
-		for (i = bytewidth; i < length; i++)
-			recon[i] = scanline[i] + recon[i - bytewidth];
-		break;
-	case 2:
-		if (precon)
-			for (i = 0; i < length; i++)
-				recon[i] = scanline[i] + precon[i];
-		else
+		case 0:
 			for (i = 0; i < length; i++)
 				recon[i] = scanline[i];
-		break;
-	case 3:
-		if (precon) {
-			for (i = 0; i < bytewidth; i++)
-				recon[i] = scanline[i] + precon[i] / 2;
-			for (i = bytewidth; i < length; i++)
-				recon[i] = scanline[i] + ((recon[i - bytewidth] + precon[i]) / 2);
-		} else {
+			break;
+		case 1:
 			for (i = 0; i < bytewidth; i++)
 				recon[i] = scanline[i];
 			for (i = bytewidth; i < length; i++)
-				recon[i] = scanline[i] + recon[i - bytewidth] / 2;
-		}
-		break;
-	case 4:
-		if (precon) {
-			for (i = 0; i < bytewidth; i++)
-				recon[i] = (unsigned char)(scanline[i] + paeth_predictor(0, precon[i], 0));
-			for (i = bytewidth; i < length; i++)
-				recon[i] = (unsigned char)(scanline[i] + paeth_predictor(recon[i - bytewidth], precon[i], precon[i - bytewidth]));
-		} else {
-			for (i = 0; i < bytewidth; i++)
-				recon[i] = scanline[i];
-			for (i = bytewidth; i < length; i++)
-				recon[i] = (unsigned char)(scanline[i] + paeth_predictor(recon[i - bytewidth], 0, 0));
-		}
-		break;
-	default:
-		SET_ERROR(upng, UPNG_EMALFORMED);
-		break;
+				recon[i] = scanline[i] + recon[i - bytewidth];
+			break;
+		case 2:
+			if (precon)
+				for (i = 0; i < length; i++)
+					recon[i] = scanline[i] + precon[i];
+			else
+				for (i = 0; i < length; i++)
+					recon[i] = scanline[i];
+			break;
+		case 3:
+			if (precon) {
+				for (i = 0; i < bytewidth; i++)
+					recon[i] = scanline[i] + precon[i] / 2;
+				for (i = bytewidth; i < length; i++)
+					recon[i] = scanline[i] + ((recon[i - bytewidth] + precon[i]) / 2);
+			} else {
+				for (i = 0; i < bytewidth; i++)
+					recon[i] = scanline[i];
+				for (i = bytewidth; i < length; i++)
+					recon[i] = scanline[i] + recon[i - bytewidth] / 2;
+			}
+			break;
+		case 4:
+			if (precon) {
+				for (i = 0; i < bytewidth; i++)
+					recon[i] = (unsigned char)(scanline[i] + paeth_predictor(0, precon[i], 0));
+				for (i = bytewidth; i < length; i++)
+					recon[i] = (unsigned char)(scanline[i] + paeth_predictor(recon[i - bytewidth], precon[i], precon[i - bytewidth]));
+			} else {
+				for (i = 0; i < bytewidth; i++)
+					recon[i] = scanline[i];
+				for (i = bytewidth; i < length; i++)
+					recon[i] = (unsigned char)(scanline[i] + paeth_predictor(recon[i - bytewidth], 0, 0));
+			}
+			break;
+		default:
+			SET_ERROR(upng, UPNG_EMALFORMED);
+			break;
 	}
 }
 
@@ -821,42 +821,42 @@ static void unfilter(upng_t* upng, unsigned char *out, const unsigned char *in, 
 {
 	/*
 	 * For PNG filter method 0
-     * this function unfilters a single image (e.g. without interlacing this is called for each scanline).
-     * out must have enough bytes allocated already, in must have the scanline + 1 filtertype byte.
-     * w and h are image dimensions or dimensions of reduced image, bpp is bits per pixel.
-     * in and out are allowed to be the same memory address, in must be the same as the in pointer in the upng struct.
-     * out must be the same as the in pointer in the upng struct.
-     * The incoming scanlines are allowed to be bit-aligned, which means they may have padding bits in the beginning.
-     * out is always byte-aligned.
-     * w * bpp must be >= 8 (byte-aligned).
-     * The incoming scanlines must be a multiple of bytewidth long.
-     * The incoming scanlines must have a length of at least bytewidth * length bytes.
-     * The outcoming scanline will be byte-aligned.
-     * The outcoming scanline will have a length of width * bytewidth bytes.
-     * The in pointer is allowed to be NULL; no filtering is then done,
-     * but out is then not accessed of course.
-     * The in pointer is allowed to be NULL; no filtering is then done,
-     * but out is then not accessed of course.
-     * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
-     * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
-     * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
-     * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
-     * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
-     * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
-     * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
+	 * this function unfilters a single image (e.g. without interlacing this is called for each scanline).
+	 * out must have enough bytes allocated already, in must have the scanline + 1 filtertype byte.
+	 * w and h are image dimensions or dimensions of reduced image, bpp is bits per pixel.
+	 * in and out are allowed to be the same memory address, in must be the same as the in pointer in the upng struct.
+	 * out must be the same as the in pointer in the upng struct.
+	 * The incoming scanlines are allowed to be bit-aligned, which means they may have padding bits in the beginning.
+	 * out is always byte-aligned.
+	 * w * bpp must be >= 8 (byte-aligned).
+	 * The incoming scanlines must be a multiple of bytewidth long.
+	 * The incoming scanlines must have a length of at least bytewidth * length bytes.
+	 * The outcoming scanline will be byte-aligned.
+	 * The outcoming scanline will have a length of width * bytewidth bytes.
+	 * The in pointer is allowed to be NULL; no filtering is then done,
+	 * but out is then not accessed of course.
+	 * The in pointer is allowed to be NULL; no filtering is then done,
+	 * but out is then not accessed of course.
+	 * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
+	 * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
+	 * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
+	 * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
+	 * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
+	 * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
+	 * The incoming scanlines must have a length of at least w * bpp / 8 bytes.
 	 */
 
 	unsigned y;
 	unsigned char *prevline = 0;
 
 	unsigned long bytewidth = (bpp + 7) / 8;
-    /*bytewidth is used for filtering, is 1 when bpp < 8, number of bytes per pixel otherwise */
+	/*bytewidth is used for filtering, is 1 when bpp < 8, number of bytes per pixel otherwise */
 	unsigned long linebytes = (w * bpp + 7) / 8;
 
 	for (y = 0; y < h; y++) {
 		unsigned long outindex = linebytes * y;
 		unsigned long inindex = (1 + linebytes) * y;
-        /*the extra filterbyte added to each row */
+		/*the extra filterbyte added to each row */
 		unsigned char filterType = in[inindex];
 
 		unfilter_scanline(upng, &out[outindex], &in[inindex + 1], prevline, bytewidth, filterType, linebytes);
@@ -871,19 +871,19 @@ static void unfilter(upng_t* upng, unsigned char *out, const unsigned char *in, 
 static void remove_padding_bits(unsigned char *out, const unsigned char *in, unsigned long olinebits, unsigned long ilinebits, unsigned h)
 {
 	/*
-     * out must be big enough to contain olinebits * h bits
-     * in must be big enough to contain ilinebits * h bits
-     *  ilinebits must be >= olinebits
-     * h is the number of scanlines
-     * in and out are allowed to be the same memory address
-     * The incoming scanlines are allowed to be bit-aligned, which means they may have padding bits in the end.
-     * The outcoming scanline will be byte-aligned.
-     * The outcoming scanline will have a length of olinebits / 8 bytes.
-     * The incoming scanlines must have a length of at least ilinebits / 8 bytes.
-     * The incoming scanlines must have a length of at least ilinebits / 8 bytes.
-     * The incoming scanlines must have a length of at least ilinebits / 8 bytes.
-     * The incoming scanlines must have a length of at least ilinebits / 8 bytes.
-     * 
+	 * out must be big enough to contain olinebits * h bits
+	 * in must be big enough to contain ilinebits * h bits
+	 *  ilinebits must be >= olinebits
+	 * h is the number of scanlines
+	 * in and out are allowed to be the same memory address
+	 * The incoming scanlines are allowed to be bit-aligned, which means they may have padding bits in the end.
+	 * The outcoming scanline will be byte-aligned.
+	 * The outcoming scanline will have a length of olinebits / 8 bytes.
+	 * The incoming scanlines must have a length of at least ilinebits / 8 bytes.
+	 * The incoming scanlines must have a length of at least ilinebits / 8 bytes.
+	 * The incoming scanlines must have a length of at least ilinebits / 8 bytes.
+	 * The incoming scanlines must have a length of at least ilinebits / 8 bytes.
+	 * 
 	 */
 	unsigned y;
 	unsigned long diff = ilinebits - olinebits;
@@ -926,58 +926,58 @@ static void post_process_scanlines(upng_t* upng, unsigned char *out, unsigned ch
 		remove_padding_bits(out, in, w * bpp, ((w * bpp + 7) / 8) * 8, h);
 	} else {
 		unfilter(upng, out, in, w, h, bpp);
-        /*we can immediatly filter into the out buffer, no other steps needed */
+		/*we can immediatly filter into the out buffer, no other steps needed */
 	}
 }
 
 static upng_format determine_format(upng_t* upng) {
 	switch (upng->color_type) {
-	case UPNG_LUM:
-		switch (upng->color_depth) {
-		case 1:
-			return UPNG_LUMINANCE1;
-		case 2:
-			return UPNG_LUMINANCE2;
-		case 4:
-			return UPNG_LUMINANCE4;
-		case 8:
-			return UPNG_LUMINANCE8;
+		case UPNG_LUM:
+			switch (upng->color_depth) {
+				case 1:
+					return UPNG_LUMINANCE1;
+				case 2:
+					return UPNG_LUMINANCE2;
+				case 4:
+					return UPNG_LUMINANCE4;
+				case 8:
+					return UPNG_LUMINANCE8;
+				default:
+					return UPNG_BADFORMAT;
+			}
+		case UPNG_RGB:
+			switch (upng->color_depth) {
+				case 8:
+					return UPNG_RGB8;
+				case 16:
+					return UPNG_RGB16;
+				default:
+					return UPNG_BADFORMAT;
+			}
+		case UPNG_LUMA:
+			switch (upng->color_depth) {
+				case 1:
+					return UPNG_LUMINANCE_ALPHA1;
+				case 2:
+					return UPNG_LUMINANCE_ALPHA2;
+				case 4:
+					return UPNG_LUMINANCE_ALPHA4;
+				case 8:
+					return UPNG_LUMINANCE_ALPHA8;
+				default:
+					return UPNG_BADFORMAT;
+			}
+		case UPNG_RGBA:
+			switch (upng->color_depth) {
+				case 8:
+					return UPNG_RGBA8;
+				case 16:
+					return UPNG_RGBA16;
+				default:
+					return UPNG_BADFORMAT;
+			}
 		default:
 			return UPNG_BADFORMAT;
-		}
-	case UPNG_RGB:
-		switch (upng->color_depth) {
-		case 8:
-			return UPNG_RGB8;
-		case 16:
-			return UPNG_RGB16;
-		default:
-			return UPNG_BADFORMAT;
-		}
-	case UPNG_LUMA:
-		switch (upng->color_depth) {
-		case 1:
-			return UPNG_LUMINANCE_ALPHA1;
-		case 2:
-			return UPNG_LUMINANCE_ALPHA2;
-		case 4:
-			return UPNG_LUMINANCE_ALPHA4;
-		case 8:
-			return UPNG_LUMINANCE_ALPHA8;
-		default:
-			return UPNG_BADFORMAT;
-		}
-	case UPNG_RGBA:
-		switch (upng->color_depth) {
-		case 8:
-			return UPNG_RGBA8;
-		case 16:
-			return UPNG_RGBA16;
-		default:
-			return UPNG_BADFORMAT;
-		}
-	default:
-		return UPNG_BADFORMAT;
 	}
 }
 
@@ -1008,7 +1008,7 @@ upng_error upng_header(upng_t* upng)
 	/* minimum length of a valid PNG file is 29 bytes
 	 * FIXME: verify this against the specification, or
 	 * better against the actual code below
-     */
+	 */
 	if (upng->source.size < 29) {
 		SET_ERROR(upng, UPNG_ENOTPNG);
 		return upng->error;
@@ -1099,7 +1099,7 @@ upng_error upng_decode(upng_t* upng)
 
 	/* scan through the chunks, finding the size of all IDAT chunks, and also
 	 * verify general well-formed-ness 
-     */
+	 */
 	while (chunk < upng->source.buffer + upng->source.size) {
 		unsigned long length;
 		/*const unsigned char *data;*/	/*the data in the chunk */
@@ -1148,7 +1148,7 @@ upng_error upng_decode(upng_t* upng)
 
 	/* scan through the chunks again, this time copying the values into
 	 * our compressed buffer.  there's no reason to validate anything a second time.
-     */
+	 */
 	chunk = upng->source.buffer + 33;
 	while (chunk < upng->source.buffer + upng->source.size) {
 		unsigned long length;
@@ -1343,16 +1343,16 @@ unsigned upng_get_bpp(const upng_t* upng)
 unsigned upng_get_components(const upng_t* upng)
 {
 	switch (upng->color_type) {
-	case UPNG_LUM:
-		return 1;
-	case UPNG_RGB:
-		return 3;
-	case UPNG_LUMA:
-		return 2;
-	case UPNG_RGBA:
-		return 4;
-	default:
-		return 0;
+		case UPNG_LUM:
+			return 1;
+		case UPNG_RGB:
+			return 3;
+		case UPNG_LUMA:
+			return 2;
+		case UPNG_RGBA:
+			return 4;
+		default:
+			return 0;
 	}
 }
 

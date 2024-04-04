@@ -7,7 +7,6 @@
  * @y1: Y coordinate of the first point.
  * @x2: X coordinate of the second point.
  * @y2: Y coordinate of the second point.
- * 
  * Return: The distance between the two points.
  */
 
@@ -19,7 +18,6 @@ float distanceBetweenPoints(float x1, float y1, float x2, float y2)
 /**
  * isRayFacingDown - Check if the ray is facing downward.
  * @angle: Current angle of the ray.
- * 
  * Return: True if the ray is facing downward, otherwise false.
  */
 
@@ -31,7 +29,6 @@ bool isRayFacingDown(float angle)
 /**
  * isRayFacingUp - Check if the ray is facing upward.
  * @angle: Current angle of the ray.
- * 
  * Return: True if the ray is facing upward, otherwise false.
  */
 
@@ -43,7 +40,6 @@ bool isRayFacingUp(float angle)
 /**
  * isRayFacingRight - Check if the ray is facing to the right.
  * @angle: Current angle of the ray.
- * 
  * Return: True if the ray is facing to the right, otherwise false.
  */
 
@@ -55,7 +51,6 @@ bool isRayFacingRight(float angle)
 /**
  * isRayFacingLeft - Check if the ray is facing to the left.
  * @angle: Current angle of the ray.
- * 
  * Return: True if the ray is facing to the left, otherwise false.
  */
 

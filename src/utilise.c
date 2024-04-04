@@ -10,10 +10,10 @@ static SDL_Window *window;
 /**
  * initializeWindow - Initializes the window to display the maze.
  *
- * Description: This function initializes the SDL window and renderer to display
- * the maze. It also allocates memory for the color buffer and creates an SDL
- * texture to display the color buffer.
- *
+ * Description: This function initializes the SDL window
+ * and renderer to display the maze. It also allocates memory
+ * for the color buffer and creates an SDL texture to display
+ * the color buffer.
  * Return: true if initialization is successful, otherwise false.
  */
 
@@ -64,9 +64,8 @@ bool initializeWindow(void)
 /**
  * destroyWindow - Destroys the window and cleans up resources.
  *
- * Description: This function frees the memory allocated for the color buffer,
- * destroys the SDL texture and renderer, and quits SDL.
- *
+ * Description: This function frees the memory allocated for the
+ * color buffer, destroys the SDL texture and renderer, and quits SDL.
  * Return: None.
  */
 
@@ -84,8 +83,8 @@ void destroyWindow(void)
  * clearColorBuffer - Clears the color buffer for every frame.
  * @color: Color to clear the buffer with.
  *
- * Description: This function sets every pixel in the color buffer to the specified color.
- *
+ * Description: This function sets every pixel in the color
+ * buffer to the specified color.
  * Return: None.
  */
 
@@ -100,9 +99,8 @@ void clearColorBuffer(color_t color)
 /**
  * renderColorBuffer - Renders the color buffer for every frame.
  *
- * Description: This function updates the color buffer texture with the contents
- * of the color buffer and renders it to the screen.
- *
+ * Description: This function updates the color buffer texture
+ * with the contents of the color buffer and renders it to the screen.
  * Return: None.
  */
 
@@ -119,13 +117,14 @@ void renderColorBuffer(void)
 }
 
 /**
- * drawPixel - Draws a pixel with the specified color at the given coordinates.
+ * drawPixel - Draws a pixel with the specified color at the given
+ * coordinates.
  * @x: X coordinate of the pixel.
  * @y: Y coordinate of the pixel.
  * @color: Color of the pixel.
  *
- * Description: This function sets the color of the pixel at the specified coordinates
- * in the color buffer.
+ * Description: This function sets the color of the pixel at the
+ * specified coordinates in the color buffer.
  *
  * Return: None.
  */

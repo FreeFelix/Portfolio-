@@ -9,7 +9,6 @@
 #include <stdbool.h>
 #include "upng.h"
 
-
 /* Constants */
 
 #define PI 3.14159265
