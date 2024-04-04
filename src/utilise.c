@@ -1,3 +1,4 @@
+#include <SDL2/SDL.h>
 #include "../headers/definition.h"
 #include "../headers/draw.h"
 

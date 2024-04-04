@@ -1,3 +1,4 @@
+#include <float.h>
 #include "../headers/definition.h"
 #include "../headers/ray.h"
 
