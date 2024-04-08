@@ -26,6 +26,11 @@
 *		distribution.
 */
 
+/*
+ * Enum: upng_error
+ * Description: Defines error codes for the UPNG library.
+ */
+
 typedef enum upng_error
 {
 	UPNG_EOK			= 0, /* success (no error) */
@@ -38,6 +43,11 @@ typedef enum upng_error
 	UPNG_EUNFORMAT		= 7, /* image color format is not supported */
 	UPNG_EPARAM			= 8  /* invalid parameter to method call */
 } upng_error;
+
+/*
+ * Enum: upng_format
+ * Description: Defines pixel formats for the UPNG library.
+ */
 
 typedef enum upng_format
 {

@@ -19,12 +19,12 @@
  */
 typedef struct ray_s
 {
-    float rayAngle;
-    float wallHitX;
-    float wallHitY;
-    float distance;
-    bool wasHitVertical;
-    int wallHitContent;
+float rayAngle;
+float wallHitX;
+float wallHitY;
+float distance;
+bool wasHitVertical;
+int wallHitContent;
 } ray_t;
 
 extern ray_t rays[NUM_RAYS];

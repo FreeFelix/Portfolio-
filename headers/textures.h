@@ -17,10 +17,10 @@
 
 typedef struct texture_s
 {
-    int width;
-    int height;
-    color_t *texture_buffer;
-    upng_t *upngTexture;
+int width;
+int height;
+color_t *texture_buffer;
+upng_t *upngTexture;
 } texture_t;
 
 extern texture_t wallTextures[NUM_TEXTURES];

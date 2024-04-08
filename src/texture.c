@@ -1,16 +1,22 @@
 #include "../headers/definition.h"
 #include "../headers/textures.h"
 
-static const char *textureFileNames[NUM_TEXTURES] = {
-	"./images/redbrick.png",
-	"./images/purplestone.png",
-	"./images/mossystone.png",
-	"./images/graystone.png",
-	"./images/colorstone.png",
-	"./images/bluestone.png",
-	"./images/wood.png",
-	"./images/eagle.png",
+static const char *textureFileNames[] = {
+    "./images/redbrick.png",
+    "./images/purplestone.png",
+    "./images/bluewall.png",
+    "./images/graystone.png",
+    "./images/colorstone.png",
+    "./images/bluestone.png",
+    "./images/wood.png",
+    "./images/table.png",
+    "./images/enemy.png",
+    "./images/dangersign.png",
+    "./images/enemy1.png",
+    "./images/guard.png",
+    // "./images/table.png"
 };
+
 
 /**
  * wallTextures - Array to store wall textures.

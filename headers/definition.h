@@ -35,6 +35,10 @@
 
 #define NUM_TEXTURES 8
 
+#define WINDOW_WIDTH 800 
+
+#define WINDOW_HEIGHT 600
+
 typedef uint32_t color_t;
 
 #endif /* HEADER_H */
