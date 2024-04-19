@@ -57,6 +57,6 @@ void renderPlayer(void)
 			newPlayer.y * MINIMAP_SCALE_FACTOR,
 			newPlayer.width * MINIMAP_SCALE_FACTOR,
 			newPlayer.height * MINIMAP_SCALE_FACTOR,
-			0xFF00FF00 /* Example color for the new player */
+			0xFF7FFF7F /* Example color for the new player */
 		);
 }
